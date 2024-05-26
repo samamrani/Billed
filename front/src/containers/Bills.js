@@ -30,6 +30,8 @@ export default class {
     $('#modaleFile').modal('show')
   }
 
+  // [Bug report] - Bills
+
    // Récupération des facture
   getBills = () => {
     if (this.store) {
@@ -38,6 +40,8 @@ export default class {
       .list()
       .then(snapshot => {
         const bills = snapshot
+      // -------les notes de frais s'affichent par ordre décroissant--------
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map(doc => {
             try {
               return {
@@ -58,8 +62,8 @@ export default class {
               }
             }
           })
-          console.log('length', bills.length)
-        return bills
+        //   console.log('length', bills.length)
+        // return bills
       })
     }
   }
