@@ -10,11 +10,13 @@ export default class Login {
     this.onNavigate = onNavigate
     this.PREVIOUS_LOCATION = PREVIOUS_LOCATION
     this.store = store
+
     const formEmployee = this.document.querySelector(`form[data-testid="form-employee"]`)
     formEmployee.addEventListener("submit", this.handleSubmitEmployee)
     const formAdmin = this.document.querySelector(`form[data-testid="form-admin"]`)
     formAdmin.addEventListener("submit", this.handleSubmitAdmin)
   }
+
   handleSubmitEmployee = e => {
     e.preventDefault()
     const user = {
@@ -34,10 +36,9 @@ export default class Login {
         PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
         this.document.body.style.backgroundColor="#fff"
       })
-
   }
 
-  // Correction handleSubmitAdmin : remplacer employee par admin
+  //[Bug report] - Login-- Correction handleSubmitAdmin : remplacer employee par admin
   handleSubmitAdmin = e => {
     e.preventDefault()
     const user = {
