@@ -7,12 +7,15 @@ export default class {
     this.document = document
     this.onNavigate = onNavigate
     this.store = store
+
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`)
     if (buttonNewBill) buttonNewBill.addEventListener('click', this.handleClickNewBill)
+
     const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`)
     if (iconEye) iconEye.forEach(icon => {
       icon.addEventListener('click', () => this.handleClickIconEye(icon))
     })
+       // Initialisation de la déconnexion
     new Logout({ document, localStorage, onNavigate })
   }
 
@@ -27,6 +30,7 @@ export default class {
     $('#modaleFile').modal('show')
   }
 
+   // Récupération des facture
   getBills = () => {
     if (this.store) {
       return this.store
@@ -44,6 +48,8 @@ export default class {
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
+
+                 // Gestion des erreurs de formatage de date
               console.log(e,'for',doc)
               return {
                 ...doc,
