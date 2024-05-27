@@ -67,17 +67,21 @@ export const getStatus = (index) => {
   }
 }
 
+// Déclaration de la classe Dashboar
 export default class {
   constructor({ document, onNavigate, store, bills, localStorage }) {
     this.document = document
     this.onNavigate = onNavigate
-    this.store = store
+    this.store = 
+    
     $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
     $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
     $('#arrow-icon3').click((e) => this.handleShowTickets(e, bills, 3))
+    
     new Logout({ localStorage, onNavigate })
   }
 
+  //  gérer le clic sur l'icôn
   handleClickIconEye = () => {
     const billUrl = $('#icon-eye-d').attr("data-bill-url")
     const imgWidth = Math.floor($('#modaleFileAdmin1').width() * 0.8)
@@ -85,10 +89,14 @@ export default class {
     if (typeof $('#modaleFileAdmin1').modal === 'function') $('#modaleFileAdmin1').modal('show')
   }
 
+  // gérer l'édition d'une note de frais
   handleEditTicket(e, bill, bills) {
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id
     if (this.counter % 2 === 0) {
+
+      // console.log('COUNTER HANDLE === 0 :', this.counter)
+
       bills.forEach(b => {
         $(`#open-bill${b.id}`).css({ background: '#0D5AE5' })
       })
@@ -97,6 +105,9 @@ export default class {
       $('.vertical-navbar').css({ height: '150vh' })
       this.counter ++
     } else {
+
+      // console.log('COUNTER HANDLE === 0 :', this.counter)
+
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
       $('.dashboard-right-container div').html(`
@@ -105,11 +116,13 @@ export default class {
       $('.vertical-navbar').css({ height: '120vh' })
       this.counter ++
     }
+
     $('#icon-eye-d').click(this.handleClickIconEye)
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
     $('#btn-refuse-bill').click((e) => this.handleRefuseSubmit(e, bill))
   }
 
+  // gérer la soumission de l'acceptation d'une note de frais
   handleAcceptSubmit = (e, bill) => {
     const newBill = {
       ...bill,
@@ -120,6 +133,7 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
+  // gérer la soumission du refus d'une note de frais
   handleRefuseSubmit = (e, bill) => {
     const newBill = {
       ...bill,
@@ -130,29 +144,40 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
+  // afficher les notes de fraits
   handleShowTickets(e, bills, index) {
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
     if (this.counter % 2 === 0) {
+
+      // console.log('COUNTER HANDLE === 0 :', this.counter) 
+
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
       this.counter ++
     } else {
+
+      // console.log('COUNTER HANDLE === 0 :', this.counter) 
+
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
       $(`#status-bills-container${this.index}`)
         .html("")
       this.counter ++
     }
 
+
+// -------------[Bug Hunt] - Dashboard---------
+    // Fix pour les événements de clic sur les cartes des notes de frais
     bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      // $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      $(`#open-bill${bill.id}`).off("click").on("click",((e) => this.handleEditTicket(e, bill, bills)))
     })
-
     return bills
-
   }
+// ----------------------------
 
+//récupérer toutes les notes de frais des utilisateurs
   getBillsAllUsers = () => {
     if (this.store) {
       return this.store
