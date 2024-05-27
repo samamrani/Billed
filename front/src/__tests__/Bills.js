@@ -7,9 +7,8 @@ import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
 import { ROUTES_PATH} from "../constants/routes.js";
 import {localStorageMock} from "../__mocks__/localStorage.js";
-
+import mockStore from "../__mocks__/store";
 import Bills from "../containers/Bills.js";
-
 import router from "../app/Router.js";
 
 jest.mock("../app/Store", () => mockStore)
@@ -28,19 +27,16 @@ describe("Given I am connected as an employee", () => {
       }))
 
       const root = document.createElement("div")
-
       root.setAttribute("id", "root")
-
       document.body.append(root)
 
       router()
-
       window.onNavigate(ROUTES_PATH.Bills)
+
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
 
       //to-do write expect expression
-
       expect(windowIcon.classList.contains("active-icon")).toBe(true);
     })
 
@@ -72,7 +68,6 @@ describe("When I click on first eye icon", () => {
     const html = BillsUI({ data: bills });//création de la constante la modale facture de l'employé
     document.body.innerHTML = html;
 
-
     const onNavigate = (pathname) => {
       document.body.innerHTML = ROUTES({ pathname });
     };
@@ -85,10 +80,10 @@ describe("When I click on first eye icon", () => {
     });
 
         // MOCK de la modal
-    $.fn.modal = jest.fn(); // Affichage de la modale
+    $.fn.modal = jest.fn(); 
 
   //MOCK l'icone de click
-  const handleClickIconEye = jest.fn(() => { //fonction qui simule un click
+  const handleClickIconEye = jest.fn(() => { 
     billsContainer.handleClickIconEye;
   });
 
