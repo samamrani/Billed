@@ -72,7 +72,7 @@ export default class {
   constructor({ document, onNavigate, store, bills, localStorage }) {
     this.document = document
     this.onNavigate = onNavigate
-    this.store = 
+    this.store = store
     
     $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
     $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
@@ -178,27 +178,26 @@ export default class {
 // ----------------------------
 
 //récupérer toutes les notes de frais des utilisateurs
-  getBillsAllUsers = () => {
-    if (this.store) {
-      return this.store
-      .bills()
-      .list()
-      .then(snapshot => {
-        const bills = snapshot
-        .map(doc => ({
-          id: doc.id,
-          ...doc,
-          date: doc.date,
-          status: doc.status
-        }))
-        return bills
-      })
-      .catch(error => {
-        throw error;
-      })
-    }
+getBillsAllUsers = () => {
+  if (this.store) {
+    return this.store
+    .bills()
+    .list()
+    .then(snapshot => {
+      const bills = snapshot
+      .map(doc => ({
+        id: doc.id,
+        ...doc,
+        date: doc.date,
+        status: doc.status
+      }))
+      return bills
+    })
+    .catch(error => {
+      throw error;
+    })
   }
-
+}
   // not need to cover this function by tests
   /* istanbul ignore next */
   updateBill = (bill) => {
