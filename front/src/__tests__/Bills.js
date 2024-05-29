@@ -30,16 +30,10 @@ describe("Given I am connected as an employee", () => {
           type: "Employee",
         })
       );
-
-
       const root = document.createElement("div");
-
       root.setAttribute("id", "root");
-
       document.body.append(root);
-
       router();
-
       window.onNavigate(ROUTES_PATH.Bills);
       await waitFor(() => screen.getByTestId("icon-window"));
       const windowIcon = screen.getByTestId("icon-window");
@@ -47,7 +41,8 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBe(true);
     });
 
-    // Ensuite les notes doivent être en ordre croissant
+
+    // -----------------[Bug report] - Bills-----------------------
     test("Then bills should be ordered from earliest to latest", () => {
       
       document.body.innerHTML = BillsUI({ data: bills });
@@ -55,8 +50,9 @@ describe("Given I am connected as an employee", () => {
         .getAllByText(
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
-        .map((a) => a.innerHTML);
-      const antiChrono = (a, b) => a - b ;
+        .map(a => a.innerHTML);
+        //  const antiChrono = (a, b) => ((a < b) ? 1 : -1)
+      const antiChrono = (a, b) => new Date(b) - new Date(a);
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
     });
