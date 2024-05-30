@@ -146,6 +146,8 @@ export default class {
 
   // afficher les notes de fraits
   handleShowTickets(e, bills, index) {
+    // 
+    e.preventDefault()
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
     if (this.counter % 2 === 0) {
@@ -167,7 +169,7 @@ export default class {
     }
 
 
-// -------------[Bug Hunt] - Dashboard---------
+// -----------bug 4- [Bug Hunt] - Dashboard---------
     // Fix pour les événements de clic sur les cartes des notes de frais
     bills.forEach(bill => {
       // $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
