@@ -7,15 +7,12 @@ export default class {
     this.document = document
     this.onNavigate = onNavigate
     this.store = store
-
     const buttonNewBill = document.querySelector(`button[data-testid="btn-new-bill"]`)
     if (buttonNewBill) buttonNewBill.addEventListener('click', this.handleClickNewBill)
-
     const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`)
     if (iconEye) iconEye.forEach(icon => {
       icon.addEventListener('click', () => this.handleClickIconEye(icon))
     })
-       // Initialisation de la déconnexion
     new Logout({ document, localStorage, onNavigate })
   }
 
@@ -30,40 +27,33 @@ export default class {
     $('#modaleFile').modal('show')
   }
 
-  // [Bug report] - Bills
-
-   // Récupération des facture
   getBills = () => {
     if (this.store) {
       return this.store
       .bills()
       .list()
       .then(snapshot => {
-        return snapshot
-
-      // -------les notes de frais s'affichent par ordre décroissant--------
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        const bills = snapshot
           .map(doc => {
             try {
               return {
                 ...doc,
                 date: formatDate(doc.date),
-                status: formatStatus(doc.status),
-              };
+                status: formatStatus(doc.status)
+              }
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
-
-                 // Gestion des erreurs de formatage de date
               console.log(e,'for',doc)
               return {
                 ...doc,
                 date: doc.date,
-                status: formatStatus(doc.status),
+                status: formatStatus(doc.status)
               }
             }
           })
-       
+          console.log('length', bills.length)
+        return bills
       })
     }
   }
