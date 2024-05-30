@@ -38,7 +38,7 @@ export default class Login {
       })
   }
 
-  //[Bug report] - Login-- Correction handleSubmitAdmin : remplacer employee par admin
+  //-----bug 2- [Bug report] - Login-- Correction handleSubmitAdmin : remplacer employee par admin
   handleSubmitAdmin = e => {
     e.preventDefault()
     const user = {
