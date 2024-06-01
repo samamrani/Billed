@@ -163,7 +163,7 @@ describe("Given I am connected as an employee", () => {
       expect(newBill.pictureTypeValid).toBe(undefined);
     });
   });
-
+  
    // Quand je suis sur la page NewBill et que je clique sur envoyer
   describe("When I am on NewBill Page and I click on send", () => {
     test("Then the handleSubmit function should be called", () => {
