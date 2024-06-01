@@ -49,9 +49,13 @@ Le projet Billed est une application de gestion des notes de frais. Les employé
     - Backend : `http://localhost:3000`
     - Frontend : `http://127.0.0.1:8080/`
 
-## Correction du Bug : Affichage des Notes de Frais par Ordre Décroissant
+### Correction du Bug 
 
-### Problème
+    affichage des Notes de Frais par Ordre Décroissant
+    administrateur remplit correctement les champs du Login, il devrait naviguer sur la page 
+    empêcher la saisie d'un document qui a une extension différente de jpg, jpeg ou png
+    pourvoir déplier plusieurs listes, et consulter les tickets de chacune des deux listes
 
-Le test vérifiant que les notes de frais sont affichées par ordre décroissant a échoué, indiquant que la fonctionnalité de tri des notes de frais par date ne fonctionnait pas correctement.
+### Tests unitaires et d'intégration
 
+#### [Test E2E] - Parcours Employé
