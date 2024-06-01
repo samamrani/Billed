@@ -42,8 +42,6 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBe(true);
     });
 
-
-    // -----------------[Bug report] - Bills-----------------------
     test("Then bills should be ordered from earliest to latest", () => {    
       document.body.innerHTML = BillsUI({ data: bills });
       const dates = screen
@@ -51,10 +49,7 @@ describe("Given I am connected as an employee", () => {
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
-         // const antiChrono = (a, b) => ((a < b) ? 1 : -1)
-        //  const antiChrono = (a, b) => new Date(b) - new Date(a);
-        const antiChrono = (a, b) => a - b ;
-   
+         const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
     });
@@ -67,7 +62,7 @@ describe("Given I am connected as an employee", () => {
 //**** */ Test handleClickIconEye  /****** */
 
 // Lorsque je clique sur la premiere icone
-describe("When I click on first eye icon", () => {
+describe("When I click on first icon", () => {
   // Alors la modal devrair s'ouvrir
   test("Then modal should open", () => {
 
@@ -112,7 +107,7 @@ describe("When I click on first eye icon", () => {
 // Lorsque je clique sur le bouton nouvelle note de frais
 describe("When i click the button 'Nouvelle note de frais'", () => {
   // Alors je rediriger vers NewwBill
-  test("So I redirect to NewwBill", () => {
+  test("then i redirect to NewwBill", () => {
     //J'intègre le chemin d'accès
     const onNavigate = (pathname) => {
       document.body.innerHTML = ROUTES({ pathname })
@@ -142,7 +137,7 @@ describe("When i click the button 'Nouvelle note de frais'", () => {
   })
 })
 
-// *********** / Test d'intégration GET BILLS / ****** 
+// *********** / Test d'intégration ""GET BILLS""" / ****** 
 
 // Quand je demande de récupérer des factures
 describe("When I get bills", () => {
@@ -171,7 +166,7 @@ describe("When I get bills", () => {
 
 //********** / Test ERREUR 404 et 500/  ********
 
-// Quand une erreur se produitsur l'API
+// Quand une erreur se produit sur l'API
 describe("When an error occurs on API", () => {
 
   beforeEach(() => {
