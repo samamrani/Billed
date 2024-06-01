@@ -16,69 +16,81 @@ export default class NewBill {
     this.fileUrl = null
     this.fileName = null
     this.billId = null
+
     new Logout({ document, localStorage, onNavigate })
   }
 
+  //----------bug 3-- [Bug Hunt] - Bills------------
+handleChangeFile = e => {
+  e.preventDefault();
+  // Récupère le fichier sélectionné
+  const file = this.document.querySelector(`input[data-testid="file"]`).files[0];
+  const fileInput = this.document.querySelector(`input[data-testid="file"]`);
+  const filePath = e.target.value.split(/\\/g);
+  const fileName = filePath[filePath.length - 1];
+  // Récupère l'extension du fichier sans le point initial
+  const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase()
 
-  handleChangeFile = e => {
-    e.preventDefault()
+  // Vérifie si l'extension est valide (jpg, jpeg ou png)
+  this.validImage = (fileExtension === '.jpg' || fileExtension === '.jpeg' || fileExtension === '.png');
 
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
-    const formData = new FormData()
-    const email = JSON.parse(localStorage.getItem("user")).email
-    formData.append('file', file)
-    formData.append('email', email)
+  // Si l'extension n'est pas valide, affiche une alerte et réinitialise l'entrée de fichier
+  if (!this.validImage) {
+    alert('Veuillez uploader une image du format .jpg, .jpeg ou .png');
+    fileInput.value = '';
+  } else {
+    // Si l'extension est valide, prépare les données du formulaire
+    const formData = new FormData();
+    const email = JSON.parse(localStorage.getItem("user")).email;
+    formData.append('file', file);
+    formData.append('email', email);
+    this.formData = formData;
+    this.fileName = fileName;
+  }
+};
 
-    //---------- [Bug Hunt] - Bills------------
-        // Vérification du format du fichier 
-    const extensionRegex = new RegExp('^.*\.(jpg|jpeg|png)$', "i")
-    if (!extensionRegex.test(file.name)) return false,
-     // Si le format est incorrect, afficher une alerte et vider le champ de fichier
-    alert('Mauvais format de fichier'),
-    this.document.querySelector(`input[data-testid="file"]`).value = ""
-    // ---------------------------
+handleSubmit = e => {
+  e.preventDefault();
+  console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value);
+  const email = JSON.parse(localStorage.getItem("user")).email;
+  const bill = {
+    email,
+    type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
+    name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
+    amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
+    date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+    vat: e.target.querySelector(`input[data-testid="vat"]`).value,
+    pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
+    commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
+    fileUrl: this.fileUrl,
+    fileName: this.fileName,
+    status: 'pending'
+  };
 
-        // Envoi du fichier au serveur
+  // Vérifie si l'image est valide avant de soumettre le formulaire
+  if (this.validImage) {
     this.store
       .bills()
       .create({
-        data: formData,
+        data: this.formData,
         headers: {
-          noContentType: true
-        }
+          noContentType: true,
+        },
       })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
+      .then(({ fileUrl, key }) => {
+        this.billId = key;
+        this.fileUrl = fileUrl;
+      })
+      .then(() => {
+        this.updateBill(bill);
+      })
+      .catch((error) => console.error(error));
   }
+};
 
-  handleSubmit = e => {
-    e.preventDefault()
-    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
-    const email = JSON.parse(localStorage.getItem("user")).email
-    const bill = {
-      email,
-      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name:  e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(e.target.querySelector(`input[data-testid="amount"]`).value),
-      date:  e.target.querySelector(`input[data-testid="datepicker"]`).value,
-      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct: parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) || 20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`).value,
-      fileUrl: this.fileUrl,
-      fileName: this.fileName,
-      status: 'pending'
-    }
-    this.updateBill(bill)
-    this.onNavigate(ROUTES_PATH['Bills'])
-  }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
