@@ -10,11 +10,13 @@ import { localStorageMock } from "../__mocks__/localStorage.js";
 import router from "../app/Router.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes";
 
-// Quand je suis sur la page NewBill et que je veux télécharger une image au mauvais format
+// Étant donné que je suis connecté en tant qu'employé
 describe("Given I am connected as an employee", () => {
+   // Quand je suis sur la page NewBill
   describe("When I am on NewBills Page", () => {
-
+// Alors l'icône de facture dans la mise en page verticale doit être surlignée
     test("Then bill icon in vertical layout should be highlighted", async () => {
+      // Simuler le localStorage avec un utilisateur de type Employee
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
@@ -38,8 +40,11 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
+  // Quand je suis sur la page NewBill
   describe("When I am on NewBill Page", () => {
+    // Alors un formulaire devrait être affiché
     test("Then a form should be displayed", () => {
+      //  // Afficher l'interface utilisateur de NewBill
       document.body.innerHTML = NewBillUI();
 
       const form = screen.getByTestId("form-new-bill");
@@ -53,6 +58,7 @@ describe("Given I am connected as an employee", () => {
       const file = screen.getAllByTestId("file");
       const sendButton = document.querySelector("#btn-send-bill");
 
+       // Vérifier que tous les éléments du formulaire sont présents
       expect(form).toBeTruthy();
       expect(type).toBeTruthy();
       expect(name).toBeTruthy();
@@ -66,8 +72,11 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
+  // Quand je suis sur la page NewBill et que je veux télécharger une image au bon format
   describe("When I am on NewBill Page and I want upload a good format image", () => {
+    // Alors un fichier devrait être téléchargé
     test("Then a file should be uploaded", () => {
+       // Simuler le localStorage avec un utilisateur de type Employee
       window.localStorage.setItem(
         "user",
         JSON.stringify({
@@ -108,8 +117,11 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
+  // Quand je suis sur la page NewBill et que je veux télécharger une image au mauvais format
   describe("When I am on NewBill Page and I want upload a bad format image", () => {
+    // Alors un fichier ne devrait pas être téléchargé
     test("Then a file should not be uploaded", () => {
+      // Simuler le localStorage avec un utilisateur de type Employee
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
@@ -155,6 +167,7 @@ describe("Given I am connected as an employee", () => {
    // Quand je suis sur la page NewBill et que je clique sur envoyer
   describe("When I am on NewBill Page and I click on send", () => {
     test("Then the handleSubmit function should be called", () => {
+       // Simuler le localStorage avec un utilisateur de type Employee
       window.localStorage.setItem(
         "user",
         JSON.stringify({
