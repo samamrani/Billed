@@ -28,20 +28,23 @@ export default class {
   }
 
   getBills = () => {
-    if (this.store) {
-      return this.store
-      .bills()
-      .list()
-      .then(snapshot => {
-        const bills = snapshot
-          .map(doc => {
-            try {
-              return {
-                ...doc,
-                date: formatDate(doc.date),
-                status: formatStatus(doc.status)
-              }
-            } catch(e) {
+		if (this.store) {
+			//console.log("store", this.store);
+			return this.store
+				.bills()
+				.list()
+				.then((snapshot) => {
+					// Bug réparé : trie le tableau bills par ordre décroissant de date
+					const bills = snapshot
+						.sort((a, b) => new Date(b.date) - new Date(a.date))
+						.map((doc) => {
+							try {
+								return {
+									...doc,
+									date: formatDate(doc.date),
+									status: formatStatus(doc.status),
+								};
+							} catch (e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
               // log the error and return unformatted date in that case
               console.log(e,'for',doc)
@@ -52,7 +55,7 @@ export default class {
               }
             }
           })
-          console.log('length', bills.length)
+          // console.log('length', bills.length)
         return bills
       })
     }
