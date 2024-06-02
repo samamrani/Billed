@@ -10,6 +10,8 @@ import { localStorageMock } from "../__mocks__/localStorage.js";
 import router from "../app/Router.js";
 import { ROUTES, ROUTES_PATH } from "../constants/routes";
 
+// **************Tests de Connexion**********
+
 // Étant donné que je suis connecté en tant qu'employé
 describe("Given I am connected as an employee", () => {
    // Quand je suis sur la page NewBill
@@ -39,6 +41,8 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList.contains("active-icon")).toBe(false);
     });
   });
+
+  // ***********Tests de Formulaire***************
 
   // Quand je suis sur la page NewBill
   describe("When I am on NewBill Page", () => {
@@ -72,6 +76,8 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
+  // ***************Téléchargement de Fichier*****************
+  // Bon Format
   // Quand je suis sur la page NewBill et que je veux télécharger une image au bon format
   describe("When I am on NewBill Page and I want upload a good format image", () => {
     // Alors un fichier devrait être téléchargé
@@ -116,6 +122,8 @@ describe("Given I am connected as an employee", () => {
       expect(window.alert).not.toHaveBeenCalled();
     });
   });
+
+  // ***************Mauvais Format************
 
   // Quand je suis sur la page NewBill et que je veux télécharger une image au mauvais format
   describe("When I am on NewBill Page and I want upload a bad format image", () => {
@@ -164,6 +172,8 @@ describe("Given I am connected as an employee", () => {
     });
   });
   
+  // *****************Soumission du Formulaire*****************
+
    // Quand je suis sur la page NewBill et que je clique sur envoyer
   describe("When I am on NewBill Page and I click on send", () => {
     test("Then the handleSubmit function should be called", () => {
@@ -206,6 +216,8 @@ describe("Given I am connected as an employee", () => {
     });
   });
 });
+
+// **************Tests d'Intégration pour POST************
 
 // Initialisation du test POST
 describe("When I am connected as an Employee", () => {
