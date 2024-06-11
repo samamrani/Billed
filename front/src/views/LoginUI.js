@@ -31,7 +31,7 @@ export default () => {
             <div class="card">
               <div class="card-body">
                 <form class="form-signin" data-testid="form-admin">
-                  <h2 class="h3 mb-3 font-weight-normal">Administration</h1>
+                  <h2 class="h3 mb-3 font-weight-normal">Administration</h2>
                   <label for="admin-email-input">Votre email</label>
                   <input id="admin-email-input" type="email" data-testid="admin-email-input" class="form-control" placeholder="johndoe@email.com" autocomplete="username" required autofocus>
                   <label for="admin-password-input">Mot de passe</label>
