@@ -10,7 +10,7 @@ export const modal = () => (`
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Justificatif</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-span="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -27,31 +27,31 @@ export default (bill) => {
     <div class="container dashboard-form" data-testid="dashboard-form">
       <div class="row">
         <div class="col-sm" id="dashboard-form-col1">
-          <label class="bold-label">Type de dépense</label>
+          <span class="bold-span">Type de dépense</span>
           <div class='input-field'> ${bill.type} </div>
-          <label class="bold-label">Nom de la dépense</label>
+          <span class="bold-span">Nom de la dépense</span>
           <div class='input-field'> ${bill.name} </div>
-          <label class="bold-label">Date</label>
+          <span class="bold-span">Date</span>
           <div class='input-field input-flex'>
             <span>${formatDate(bill.date)}</span>
             <span> ${calendarIcon} </span>
           </div>
         </div>
         <div class="col-sm" id="dashboard-form-col2">
-          <label class="bold-label">Commentaire</label>
+          <span class="bold-span">Commentaire</span>
           <div class='textarea-field' style="height: 300px;"> ${bill.commentary} </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm">
-          <label class="bold-label">Montant TTC </label>
+          <span class="bold-span">Montant TTC </span>
           <div class='input-field input-flex'>
             <span data-testid="amount-d">${bill.amount}</span>
             <span> ${euroIcon} </span>
           </div>
         </div>
         <div class="col-sm">
-          <label class="bold-label">TVA</label>
+          <labelclass="bold-span">TVA</span>
           <div id='vat-flex-container'>
             <div class='input-field input-flex vat-flex'>
               <span>${bill.vat}</span>
@@ -66,7 +66,7 @@ export default (bill) => {
       </div>
       <div class="row">
         <div class="col-sm">
-          <label class="bold-label">Justificatif</label>
+          <span class="bold-span">Justificatif</span>
             <div class='input-field input-flex file-flex'>
             <span id="file-name-admin">${bill.fileName}</span>
             <div class='icons-container'>
@@ -78,12 +78,12 @@ export default (bill) => {
       <div class="row">
        ${bill.status === 'pending' ? (`
         <div class="col-sm">
-          <label for="commentary-admin" class="bold-label">Ajouter un commentaire</label>
+          <span for="commentary-admin" class="bold-span">Ajouter un commentaire</span>
           <textarea id="commentary-admin" class="form-control blue-border" data-testid="commentary2" rows="5"></textarea>
         </div>
        `) : (`
         <div class="col-sm">
-          <label class="bold-label">Votre commentaire</label>
+          <span class="bold-span">Votre commentaire</span>
           <div class='input-field'> ${bill.commentAdmin} </div>
         </div>
        `)}

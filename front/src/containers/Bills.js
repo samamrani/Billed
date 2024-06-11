@@ -17,12 +17,16 @@ export default class {
   }
 
   handleClickNewBill = () => {
+    console.log('navigation vers une nouvelle facture');
     this.onNavigate(ROUTES_PATH['NewBill'])
   }
 
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url")
+    console.log('Bill URL:', billUrl);
+  
     const imgWidth = Math.floor($('#modaleFile').width() * 0.5)
+    console.log('Image Width:', imgWidth);
     $('#modaleFile').find(".modal-body").html(`<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`)
     $('#modaleFile').modal('show')
   }
@@ -34,6 +38,7 @@ export default class {
 				.bills()
 				.list()
 				.then((snapshot) => {
+          console.log('Snapshot:', snapshot); 
 					// Bug réparé : trie le tableau bills par ordre décroissant de date
 					const bills = snapshot
 						.sort((a, b) => new Date(b.date) - new Date(a.date))
